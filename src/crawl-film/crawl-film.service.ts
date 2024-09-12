@@ -13,7 +13,6 @@ export class CrawlFilmService {
 
     for (let page = startPage; page <= endPage; page++) {
       const pageData = await this.getFilmsByPage(page);
-      console.log(pageData);
 
       for (const film of pageData) {
         try {
@@ -81,12 +80,10 @@ export class CrawlFilmService {
       category,
       country,
       slug,
+      tmdb,
     } = filmDetails.movie;
-
     const des = content.replace(/<\/?p>/g, '');
-
     const { episodes } = filmDetails;
-
     // Save movie
     let movie;
     try {
@@ -113,6 +110,8 @@ export class CrawlFilmService {
           lang,
           notify,
           showtimes,
+          tmdb_vote_count: parseInt(tmdb.vote_count),
+          tmdb_vote_average: parseFloat(tmdb.vote_average),
         },
       });
     } catch (error) {
